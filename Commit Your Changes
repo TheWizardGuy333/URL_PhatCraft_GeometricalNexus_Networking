@@ -1,1 +1,2 @@
 git commit -m "Add installation script and requirements file"
+git push -u origin main
