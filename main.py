@@ -2,6 +2,7 @@ import streamlit as st
 import sqlite3
 from deepai import DeepAI
 from coinbase_commerce.client import Client
+import os
 import logging
 
 # Initialize DeepAI API
@@ -17,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Database setup
-conn = sqlite3.connect('app.db', check_same_thread=False)
+conn = sqlite3.connect('app.db')
 c = conn.cursor()
 
 # Create necessary tables if not exist
@@ -54,6 +55,7 @@ def create_user(username, password):
 # Shape creation
 def create_shape(shape_type, iterations):
     try:
+        # Dummy implementation, replace with actual shape creation logic
         shapes = {
             "Flower of Life": "Creating Flower of Life with {} iterations.".format(iterations),
             "Metatron's Cube": "Creating Metatron's Cube with {} iterations.".format(iterations)
@@ -137,95 +139,91 @@ def check_subscription(user):
         logger.error(f"Error checking subscription: {e}")
 
 # Streamlit app layout and logic
-def main():
-    st.title("URL PhatCraft Geometrical Nexus Networking")
-    menu = ["Home", "Login", "Sign Up", "Create Shape", "Manage URLs", "Social Network", "Subscription"]
-    choice = st.sidebar.selectbox("Menu", menu)
+st.title("URL PhatCraft Geometrical Nexus Networking")
+menu = ["Home", "Login", "Sign Up", "Create Shape", "Manage URLs", "Social Network", "Subscription"]
+choice = st.sidebar.selectbox("Menu", menu)
 
-    if choice == "Home":
-        st.subheader("Welcome to the URL PhatCraft Geometrical Nexus Networking App")
+if choice == "Home":
+    st.subheader("Welcome to the URL PhatCraft Geometrical Nexus Networking App")
 
-    elif choice == "Login":
-        st.subheader("Login Section")
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
-        if st.button("Login"):
-            if authenticate(username, password):
-                st.session_state['username'] = username
-                st.success("Logged In as {}".format(username))
+elif choice == "Login":
+    st.subheader("Login Section")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        if authenticate(username, password):
+            st.success("Logged In as {}".format(username))
+            # Add your login success logic here
+        else:
+            st.error("Invalid Username or Password")
+
+elif choice == "Sign Up":
+    st.subheader("Create New Account")
+    new_user = st.text_input("Username")
+    new_password = st.text_input("Password", type="password")
+    if st.button("Sign Up"):
+        create_user(new_user, new_password)
+        st.success("Account created successfully")
+
+elif choice == "Create Shape":
+    st.subheader("Create Sacred Geometry Shape")
+    shape_type = st.selectbox("Select Shape", ["Flower of Life", "Metatron's Cube"])
+    iterations = st.slider("Number of Iterations", 1, 33)
+    if st.button("Create"):
+        result = create_shape(shape_type, iterations)
+        st.write(result)
+
+elif choice == "Manage URLs":
+    st.subheader("Manage Your URLs")
+    if 'username' not in st.session_state:
+        st.error("Please login to manage URLs")
+    else:
+        user = st.session_state['username']
+        url = st.text_input("URL")
+        description = st.text_area("Description")
+        if st.button("Add URL"):
+            add_url(user, url, description)
+            st.success("URL added successfully")
+        user_urls = get_user_urls(user)
+        for u in user_urls:
+            st.write("URL: ", u[0])
+            st.write("Description: ", u[1])
+            st.write("---")
+
+elif choice == "Social Network":
+    st.subheader("Social Network")
+    if 'username' not in st.session_state:
+        st.error("Please login to post")
+    else:
+        user = st.session_state['username']
+        content = st.text_area("What's on your mind?")
+        if st.button("Post"):
+            create_post(user, content)
+            st.success("Posted successfully")
+        posts = get_all_posts()
+        for p in posts:
+            st.write("User: ", p[0])
+            st.write("Content: ", p[1])
+            st.write("Timestamp: ", p[2])
+            st.write("---")
+
+elif choice == "Subscription":
+    st.subheader("Manage Subscription")
+    if 'username' not in st.session_state:
+        st.error("Please login to manage subscription")
+    else:
+        user = st.session_state['username']
+        if st.button("Create Subscription"):
+            subscription_url = create_subscription(user)
+            if subscription_url:
+                st.success("Subscription created successfully")
+                st.write("Go to the following URL to complete the payment: ", subscription_url)
             else:
-                st.error("Invalid Username or Password")
+                st.error("Error creating subscription")
+        if st.button("Check Subscription Status"):
+            if check_subscription(user):
+                st.success("Subscription is active")
+            else:
+                st.error("Subscription is not active or does not exist")
 
-    elif choice == "Sign Up":
-        st.subheader("Create New Account")
-        new_user = st.text_input("Username")
-        new_password = st.text_input("Password", type="password")
-        if st.button("Sign Up"):
-            create_user(new_user, new_password)
-            st.success("Account created successfully")
-
-    elif choice == "Create Shape":
-        st.subheader("Create Sacred Geometry Shape")
-        shape_type = st.selectbox("Select Shape", ["Flower of Life", "Metatron's Cube"])
-        iterations = st.slider("Number of Iterations", 1, 33)
-        if st.button("Create"):
-            result = create_shape(shape_type, iterations)
-            st.write(result)
-
-    elif choice == "Manage URLs":
-        st.subheader("Manage Your URLs")
-        if 'username' not in st.session_state:
-            st.error("Please login to manage URLs")
-        else:
-            user = st.session_state['username']
-            url = st.text_input("URL")
-            description = st.text_area("Description")
-            if st.button("Add URL"):
-                add_url(user, url, description)
-                st.success("URL added successfully")
-            user_urls = get_user_urls(user)
-            for u in user_urls:
-                st.write("URL: ", u[0])
-                st.write("Description: ", u[1])
-                st.write("---")
-
-    elif choice == "Social Network":
-        st.subheader("Social Network")
-        if 'username' not in st.session_state:
-            st.error("Please login to post")
-        else:
-            user = st.session_state['username']
-            content = st.text_area("What's on your mind?")
-            if st.button("Post"):
-                create_post(user, content)
-                st.success("Posted successfully")
-            posts = get_all_posts()
-            for p in posts:
-                st.write("User: ", p[0])
-                st.write("Content: ", p[1])
-                st.write("Timestamp: ", p[2])
-                st.write("---")
-
-    elif choice == "Subscription":
-        st.subheader("Manage Subscription")
-        if 'username' not in st.session_state:
-            st.error("Please login to manage subscription")
-        else:
-            user = st.session_state['username']
-            if st.button("Create Subscription"):
-                subscription_url = create_subscription(user)
-                if subscription_url:
-                    st.success("Subscription created successfully")
-                    st.write("Go to the following URL to complete the payment: ", subscription_url)
-                else:
-                    st.error("Error creating subscription")
-            if st.button("Check Subscription Status"):
-                if check_subscription(user):
-                    st.success("Subscription is active")
-                else:
-                    st.error("Subscription is not active or does not exist")
-
-    conn.close()
-
-if __name__ == "__main__":
-    main()
+conn.close()
