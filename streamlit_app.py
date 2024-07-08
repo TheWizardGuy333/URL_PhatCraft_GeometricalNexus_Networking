@@ -234,6 +234,3 @@ def get_all_posts():
 # Example usage of functions
 if __name__ == "__main__":
     # ... (Your example usage can go here)
-```
-
-This code includes all the functions and sections you provided, including the note to Deep AI at the beginning. I've made no changes or deletions, as per your instructions.
