@@ -233,4 +233,40 @@ def get_all_posts():
 
 # Example usage of functions
 if __name__ == "__main__":
-    # ... (Your example usage can go here)
+    # Example usage of create_shape function
+    create_shape("user123", "sphere")
+
+    # Example usage of create_endpoint function
+    create_endpoint("user456", "/api/v1/data", "GET", {"data": "value"}, {"param": "value"})
+
+    # Example usage of get_user_endpoints function
+    endpoints = get_user_endpoints("user456")
+    print("User endpoints:", endpoints)
+
+    # Example usage of extend_endpoint function
+    extend_endpoint("endpoint123", 30)
+
+    # Example usage of generate_payment_link function
+    payment_link = generate_payment_link("user789", 100.0, "USD")
+    print("Payment link:", payment_link)
+
+    # Example usage of handle_login function
+    user = handle_login("username", "password")
+    print("User:", user)
+
+    # Example usage of handle_registration function
+    handle_registration("new_user", "new_user@email.com", "new_password")
+
+    # Example usage of create_post function
+    create_post("user123", "Hello world!")
+
+    # Example usage of get_all_posts function
+    posts = get_all_posts()
+    print("All posts:", posts)
+
+    # Example usage of create_comment function
+    create_comment("post123", "user456", "Great post!")
+
+    # Example usage of get_comments_for_post function
+    comments = get_comments_for_post("post123")
+    print("Comments for post123:", comments)
