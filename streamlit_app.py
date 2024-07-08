@@ -230,6 +230,27 @@ def get_all_posts():
     posts = c.fetchall()
     conn.close()
     return posts
+# Function to create a new comment
+def create_comment(post_id, user_id, content):
+    try:
+        conn = sqlite3.connect(DB_FILE)
+        c = conn.cursor()
+        c.execute("INSERT INTO comments (id, post_id, user_id, content, created_at) VALUES (?, ?, ?, ?, ?)",
+                  (str(uuid.uuid4()), post_id, user_id, content, datetime.datetime.now().isoformat()))
+        conn.commit()
+    except sqlite3.Error as e:
+        st.error(f"Database error: {str(e)}")
+    finally:
+        conn.close()
+
+# Function to get comments for a post
+def get_comments_for_post(post_id):
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+    c.execute("SELECT * FROM comments WHERE post_id = ?", (post_id,))
+    comments = c.fetchall()
+    conn.close()
+    return comments
 
 # Example usage of functions
 if __name__ == "__main__":
