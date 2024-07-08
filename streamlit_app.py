@@ -9,11 +9,14 @@ import streamlit as st
 from coinbase.wallet.client import Client
 
 # Securely store API key as an environment variable
-COINBASE_API_KEY = os.environ.get('COINBASE_API_KEY')
-COINBASE_API_SECRET = os.environ.get('COINBASE_API_SECRET')
+COINBASE_API_KEY = os.getenv('COINBASE_API_KEY')
+COINBASE_API_SECRET = os.getenv('COINBASE_API_SECRET')
 
 # Initialize Coinbase client
-coinbase_client = Client(api_key=COINBASE_API_KEY, api_secret=COINBASE_API_SECRET)
+if COINBASE_API_KEY and COINBASE_API_SECRET:
+    coinbase_client = Client(api_key=COINBASE_API_KEY, api_secret=COINBASE_API_SECRET)
+else:
+    coinbase_client = None
 
 # Load API key from Streamlit secrets
 DEEP_AI_API_KEY = st.secrets["general"]["deep_ai_api_key"]
@@ -203,7 +206,7 @@ def main():
         query_params = st.text_area("Query Parameters (JSON format)")
         if st.button("Create Endpoint"):
             try:
-                response_dict = json.loads(response)
+              response_dict = json.loads(response)
                 query_params_dict = json.loads(query_params)
                 create_endpoint(user_id, path, method, response_dict, query_params_dict)
                 st.success("Endpoint created successfully.")
