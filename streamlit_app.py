@@ -251,43 +251,59 @@ def get_comments_for_post(post_id):
     comments = c.fetchall()
     conn.close()
     return comments
-
-# Example usage of functions
 if __name__ == "__main__":
-    # Example usage of create_shape function
-    create_shape("user123", "sphere")
+    try:
+        print("Starting example usage...")
 
-    # Example usage of create_endpoint function
-    create_endpoint("user456", "/api/v1/data", "GET", {"data": "value"}, {"param": "value"})
+        print("Creating shape...")
+        create_shape("user123", "sphere")
+        print("Shape created successfully.")
 
-    # Example usage of get_user_endpoints function
-    endpoints = get_user_endpoints("user456")
-    print("User endpoints:", endpoints)
+        print("Creating endpoint...")
+        create_endpoint("user456", "/api/v1/data", "GET", {"data": "value"}, {"param": "value"})
+        print("Endpoint created successfully.")
 
-    # Example usage of extend_endpoint function
-    extend_endpoint("endpoint123", 30)
+        print("Getting user endpoints...")
+        endpoints = get_user_endpoints("user456")
+        print("User endpoints:", endpoints)
 
-    # Example usage of generate_payment_link function
-    payment_link = generate_payment_link("user789", 100.0, "USD")
-    print("Payment link:", payment_link)
+        print("Extending endpoint...")
+        extend_endpoint("endpoint123", 30)
+        print("Endpoint extended successfully.")
 
-    # Example usage of handle_login function
-    user = handle_login("username", "password")
-    print("User:", user)
+        print("Generating payment link...")
+        payment_link = generate_payment_link("user789", 100.0, "USD")
+        print("Payment link:", payment_link)
 
-    # Example usage of handle_registration function
-    handle_registration("new_user", "new_user@email.com", "new_password")
+        print("Handling login...")
+        user = handle_login("username", "password")
+        print("User:", user)
 
-    # Example usage of create_post function
-    create_post("user123", "Hello world!")
+        print("Handling registration...")
+        handle_registration("new_user", "new_user@email.com", "new_password")
+        print("Registration handled successfully.")
 
-    # Example usage of get_all_posts function
-    posts = get_all_posts()
-    print("All posts:", posts)
+        print("Creating post...")
+        create_post("user123", "Hello world!")
+        print("Post created successfully.")
 
-    # Example usage of create_comment function
-    create_comment("post123", "user456", "Great post!")
+        print("Getting all posts...")
+        posts = get_all_posts()
+        print("All posts:", posts)
 
-    # Example usage of get_comments_for_post function
-    comments = get_comments_for_post("post123")
-    print("Comments for post123:", comments)
+        print("Creating comment...")
+        create_comment("post123", "user456", "Great post!")
+        print("Comment created successfully.")
+
+        print("Getting comments for post...")
+        comments = get_comments_for_post("post123")
+        print("Comments for post123:", comments)
+
+        print("Example usage completed successfully.")
+
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        print(f"Error type: {type(e).__name__}")
+        import traceback
+        print("Traceback:")
+        print(traceback.format_exc())
