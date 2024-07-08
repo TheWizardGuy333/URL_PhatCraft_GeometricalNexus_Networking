@@ -135,7 +135,7 @@ def create_endpoint(user_id, path, method, response, query_params):
         INSERT INTO endpoints (id, user_id, path, method, response, query_params, created_at, expires_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     """, (
-        str(uuid.uuid4()), user_id, path, method, json.dumps(response), json.dumps(query_params),
+       str(uuid.uuid4()), user_id, path, method, json.dumps(response), json.dumps(query_params),
         datetime.datetime.now().isoformat(), (datetime.datetime.now() + datetime.timedelta(days=FREE_DAYS)).isoformat()
     ))
     conn.commit()
@@ -206,7 +206,7 @@ def main():
         query_params = st.text_area("Query Parameters (JSON format)")
         if st.button("Create Endpoint"):
             try:
-              response_dict = json.loads(response)
+                response_dict = json.loads(response)
                 query_params_dict = json.loads(query_params)
                 create_endpoint(user_id, path, method, response_dict, query_params_dict)
                 st.success("Endpoint created successfully.")
