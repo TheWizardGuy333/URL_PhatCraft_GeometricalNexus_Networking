@@ -2,7 +2,6 @@ import streamlit as st
 import requests
 import sqlite3
 
-# Load API key from Streamlit secrets
 DEEP_AI_API_KEY = st.secrets["deep_ai_api_key"]
 DEEP_AI_API_ENDPOINT = "https://api.deepai.org"
 DB_FILE = 'database.db'
@@ -103,11 +102,11 @@ def main():
 
     elif choice == "Manage Endpoints":
         st.subheader("Manage Endpoints")
-        # Implement endpoint management functionality
+        st.write("Endpoint management functionality will be implemented here.")
 
     elif choice == "User Profile":
         st.subheader("User Profile")
-        # Implement user profile functionality
+        st.write("User profile functionality will be implemented here.")
 
     elif choice == "Debug Code":
         st.subheader("Debug Code")
@@ -124,3 +123,22 @@ def main():
             optimized_code = optimize_code(code_snippet)
             st.write("Optimized Code:")
             st.code(optimized_code, language='python')
+
+    elif choice == "Generate Documentation":
+        st.subheader("Generate Documentation")
+        feature_description = st.text_area("Enter feature description:")
+        if st.button("Generate"):
+            documentation = generate_documentation(feature_description)
+            st.write("Generated Documentation:")
+            st.write(documentation)
+
+    elif choice == "Interact with User":
+        st.subheader("Interact with User")
+        message = st.text_area("Enter your message:")
+        if st.button("Send"):
+            response = interact_with_user(message)
+            st.write("AI Response:")
+            st.write(response)
+
+if __name__ == "__main__":
+    main()
