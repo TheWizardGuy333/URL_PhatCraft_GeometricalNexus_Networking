@@ -2,7 +2,8 @@ import streamlit as st
 import requests
 import sqlite3
 
-DEEP_AI_API_KEY = st.secrets["deep_ai_api_key"]
+# Load API key from Streamlit secrets
+DEEP_AI_API_KEY = st.secrets["general"]["deep_ai_api_key"]
 DEEP_AI_API_ENDPOINT = "https://api.deepai.org"
 DB_FILE = 'database.db'
 
