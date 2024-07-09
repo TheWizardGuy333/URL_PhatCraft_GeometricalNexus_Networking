@@ -1,0 +1,46 @@
+import streamlit as st
+from app.blockchain import Blockchain
+from app.shapes import ShapeManager
+from app.marketplace import Marketplace
+from app.user_management import UserManager
+from app.ai_integration import AIIntegration
+import config
+
+# Initialize components
+blockchain = Blockchain()
+shapes = ShapeManager()
+marketplace = Marketplace(blockchain)
+ai_integration = AIIntegration(config.Config.DEEPAI_API_KEY)
+
+# Streamlit app layout
+st.title("URL PhatCraft Geometrical Nexus Networking")
+st.sidebar.title("Menu")
+app_mode = st.sidebar.selectbox("Choose the app mode", ["Home", "Create Shape", "Marketplace", "AI Art"])
+
+# Home Page
+if app_mode == "Home":
+    st.header("Welcome to URL PhatCraft Geometrical Nexus Networking")
+    st.write("Explore the world of sacred geometry and digital art.")
+
+# Create Shape Page
+elif app_mode == "Create Shape":
+    st.header("Create a New Shape")
+    shape_data = st.text_input("Enter shape data:")
+    if st.button("Create Shape"):
+        shape = shapes.create_shape(shape_data)
+        st.write("Shape created:", shape)
+
+# Marketplace Page
+elif app_mode == "Marketplace":
+    st.header("Marketplace")
+    items = marketplace.get_items()
+    st.write(items)
+
+# AI Art Page
+elif app_mode == "AI Art":
+    st.header("Generate AI Art")
+    prompt = st.text_input("Enter a prompt for AI art generation:")
+    if st.button("Generate Art"):
+        result = ai_integration.generate_art(prompt)
+        st.image(result['output_url'], caption="Generated Art")
+
