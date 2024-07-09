@@ -12,7 +12,7 @@ URL_PhatCraft_GeometricalNexus_Networking/
 ├── static/
 ├── templates/
 ├── tests/
-├── app.py
+├── streamlit_app.py  # New Streamlit app file
 ├── config.py
 ├── requirements.txt
 └── README.md
