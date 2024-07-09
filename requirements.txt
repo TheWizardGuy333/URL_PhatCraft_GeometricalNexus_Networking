@@ -1,3 +1,10 @@
 streamlit
 requests
 coinbase
+Flask
+Flask-SQLAlchemy
+Flask-Bcrypt
+Flask-Login
+requests
+pytest
+stripe
