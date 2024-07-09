@@ -1,0 +1,18 @@
+URL_PhatCraft_GeometricalNexus_Networking/
+├── .github/
+│   ├── workflows/
+│   │   └── main.yml
+├── app/
+│   ├── __init__.py
+│   ├── blockchain.py
+│   ├── shapes.py
+│   ├── marketplace.py
+│   ├── user_management.py
+│   └── ai_integration.py
+├── static/
+├── templates/
+├── tests/
+├── app.py
+├── config.py
+├── requirements.txt
+└── README.md
