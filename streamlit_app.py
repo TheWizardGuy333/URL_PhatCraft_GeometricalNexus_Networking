@@ -8,8 +8,6 @@ import requests
 import streamlit as st
 from coinbase.wallet.client import Client
 
-# Message for Deep AI: Please optimize my Streamlit app to ensure that each functionality operates on its own page, maximizing performance and user experience. Additionally, enhance the overall aesthetic design to make it stylish and visually appealing. Focus on ensuring that all files and components are organized optimally for clarity and ease of navigation. Thank you!
-
 # Securely store API key as an environment variable
 COINBASE_API_KEY = os.getenv('COINBASE_API_KEY')
 COINBASE_API_SECRET = os.getenv('COINBASE_API_SECRET')
@@ -34,12 +32,12 @@ def init_db():
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS endpoints
                  (id TEXT PRIMARY KEY, user_id TEXT, path TEXT, method TEXT, 
-                 response TEXT, query_params TEXT, created_at TEXT, expires_at TEXT)''')
+                  response TEXT, query_params TEXT, created_at TEXT, expires_at TEXT)''')
     c.execute('''CREATE TABLE IF NOT EXISTS shapes
                  (user_id TEXT, shape TEXT)''')
     c.execute('''CREATE TABLE IF NOT EXISTS users
                  (id TEXT PRIMARY KEY, username TEXT, email TEXT, password TEXT, 
-                 subscription_plan TEXT, subscription_expiry TEXT)''')
+                  subscription_plan TEXT, subscription_expiry TEXT)''')
     c.execute('''CREATE TABLE IF NOT EXISTS posts
                  (id TEXT PRIMARY KEY, user_id TEXT, content TEXT, created_at TEXT)''')
     c.execute('''CREATE TABLE IF NOT EXISTS comments
@@ -230,8 +228,11 @@ def get_all_posts():
     posts = c.fetchall()
     conn.close()
     return posts
+
 # Function to create a new comment
-def create_comment(post_id, user_id, content):
+def
+
+ create_comment(post_id, user_id, content):
     try:
         conn = sqlite3.connect(DB_FILE)
         c = conn.cursor()
@@ -251,59 +252,105 @@ def get_comments_for_post(post_id):
     comments = c.fetchall()
     conn.close()
     return comments
+
+# Streamlit app
+def main():
+    st.title("Sacred Geometry Nexus +")
+    st.sidebar.title("Navigation")
+    choice = st.sidebar.radio("Go to", ["Home", "Create Shape", "Manage Endpoints", "User Profile", "Debug Code", "Optimize Code", "Generate Documentation", "Interact with User"])
+
+    if choice == "Home":
+        st.subheader("Home")
+        st.write("Welcome to Sacred Geometry Nexus +!")
+
+    elif choice == "Create Shape":
+        create_shape_page()
+
+    elif choice == "Manage Endpoints":
+        manage_endpoints_page()
+
+    elif choice == "User Profile":
+        user_profile_page()
+
+    elif choice == "Debug Code":
+        debug_code_page()
+
+    elif choice == "Optimize Code":
+        optimize_code_page()
+
+    elif choice == "Generate Documentation":
+        generate_documentation_page()
+
+    elif choice == "Interact with User":
+        interact_with_user_page()
+
+def create_shape_page():
+    st.subheader("Create Shape")
+    user_id = st.text_input("User ID")
+    shape = st.text_input("Shape")
+    if st.button("Create"):
+        create_shape(user_id, shape)
+        st.success("Shape created successfully.")
+
+def manage_endpoints_page():
+    st.subheader("Manage Endpoints")
+    user_id = st.text_input("User ID")
+    path = st.text_input("Path")
+    method = st.selectbox("Method", ["GET", "POST", "PUT", "DELETE"])
+    response = st.text_area("Response (JSON format)")
+    query_params = st.text_area("Query Parameters (JSON format)")
+    if st.button("Create Endpoint"):
+        try:
+            response_dict = json.loads(response)
+            query_params_dict = json.loads(query_params)
+            create_endpoint(user_id, path, method, response_dict, query_params_dict)
+            st.success("Endpoint created successfully.")
+        except ValueError as e:
+            st.error(str(e))
+        except json.JSONDecodeError:
+            st.error("Invalid JSON format.")
+    if st.button("Get Endpoints"):
+        try:
+            endpoints = get_user_endpoints(user_id)
+            st.write(endpoints)
+        except ValueError as e:
+            st.error(str(e))
+
+def user_profile_page():
+    st.subheader("User Profile")
+    st.write("User profile functionality will be implemented here.")
+
+def debug_code_page():
+    st.subheader("Debug Code")
+    code_snippet = st.text_area("Enter code snippet to debug:")
+    if st.button("Debug"):
+        debug_info = handle_error(code_snippet)
+        st.write("Debug Information:")
+        st.write(debug_info)
+
+def optimize_code_page():
+    st.subheader("Optimize Code")
+    code_snippet = st.text_area("Enter code snippet to optimize:")
+    if st.button("Optimize"):
+        optimized_code = optimize_code(code_snippet)
+        st.write("Optimized Code:")
+        st.code(optimized_code, language='python')
+
+def generate_documentation_page():
+    st.subheader("Generate Documentation")
+    feature_description = st.text_area("Enter feature description:")
+    if st.button("Generate"):
+        documentation = generate_documentation(feature_description)
+        st.write("Generated Documentation:")
+        st.write(documentation)
+
+def interact_with_user_page():
+    st.subheader("Interact with User")
+    message = st.text_area("Enter your message:")
+    if st.button("Send"):
+        response = interact_with_user(message)
+        st.write("AI Response:")
+        st.write(response)
+
 if __name__ == "__main__":
-    try:
-        print("Starting example usage...")
-
-        print("Creating shape...")
-        create_shape("user123", "sphere")
-        print("Shape created successfully.")
-
-        print("Creating endpoint...")
-        create_endpoint("user456", "/api/v1/data", "GET", {"data": "value"}, {"param": "value"})
-        print("Endpoint created successfully.")
-
-        print("Getting user endpoints...")
-        endpoints = get_user_endpoints("user456")
-        print("User endpoints:", endpoints)
-
-        print("Extending endpoint...")
-        extend_endpoint("endpoint123", 30)
-        print("Endpoint extended successfully.")
-
-        print("Generating payment link...")
-        payment_link = generate_payment_link("user789", 100.0, "USD")
-        print("Payment link:", payment_link)
-
-        print("Handling login...")
-        user = handle_login("username", "password")
-        print("User:", user)
-
-        print("Handling registration...")
-        handle_registration("new_user", "new_user@email.com", "new_password")
-        print("Registration handled successfully.")
-
-        print("Creating post...")
-        create_post("user123", "Hello world!")
-        print("Post created successfully.")
-
-        print("Getting all posts...")
-        posts = get_all_posts()
-        print("All posts:", posts)
-
-        print("Creating comment...")
-        create_comment("post123", "user456", "Great post!")
-        print("Comment created successfully.")
-
-        print("Getting comments for post...")
-        comments = get_comments_for_post("post123")
-        print("Comments for post123:", comments)
-
-        print("Example usage completed successfully.")
-
-    except Exception as e:
-        print(f"An error occurred: {str(e)}")
-        print(f"Error type: {type(e).__name__}")
-        import traceback
-        print("Traceback:")
-        print(traceback.format_exc())
+    main()
